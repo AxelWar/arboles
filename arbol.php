@@ -1,7 +1,8 @@
 
 <?php
-
+//declara la clase
     class Node {
+		//declara las variables
           public $info;
           public $left;
           public $right;
@@ -16,32 +17,43 @@
                  return "$this->info";
           }
     }  
+    
     class SearchBinaryTree {
+		//declara la raiz
           public $root;
           public function  __construct() {
                  $this->root = NULL;
           }
-  
+
           public function create($info) {
-              
+              //si root esta vacio crea un nodo en root
                  if($this->root == NULL) {
                     $this->root = new Node($info);
                  } else {
-  
+  //como root no esta vacio lo guarda en current
                     $current = $this->root;
+            //itera el array e inserta los valores en el arbol
                     while(true) {
+               //El nodo a insertar es mas chico?
                           if($info < $current->info) {
-                         
+                          //Si? entonces, el nodo izquierdo es null?
                                 if($current->left) {
+                                    //Si? inserta en el nodo de la izquierda
                                    $current = $current->left;
                                 } else {
+//No? entonces llama nuevamente el metodo insertNode(); con el nodo izquierdo como previo
                                    $current->left = new Node($info);
                                    break; 
                                 }
+
+// No es mas chico? entonces, es mas grande?
                           } else if($info > $current->info){
+                           //el nodo derecho es null?
                                 if($current->right) {
+                                   //Si? inserta en el nodo de la derecha
                                    $current = $current->right;
                                 } else {
+//No? Entonces llama de nuevo al metodo insertNode(); con el nodo derecho como previo
                                    $current->right = new Node($info);
                                    break; 
                                 }
@@ -68,6 +80,7 @@
                      break;
                  } 
           } 
+          //recorrido inorder (izquierda, raiz, derecha)
           private function _inorder($node) {
                           if($node->left) {
                              $this->_inorder($node->left); 
@@ -77,6 +90,7 @@
                              $this->_inorder($node->right); 
                           } 
           }
+          //recorrido preorder (raiz, izquierda, derecha)
           private function _preorder($node) {
                           echo $node. " ";
                           if($node->left) {
@@ -86,6 +100,7 @@
                              $this->_preorder($node->right); 
                           } 
           }
+          //recorrido postorder (izquierda, derecha, raiz)
           private function _postorder($node) {
                           if($node->left) {
                              $this->_postorder($node->left); 
@@ -95,7 +110,10 @@
                           } 
                           echo $node. " ";
           }
-          public function BFT() {
+
+//Entra un nodo a la cola, entran sus hijos en caso de tener, se imprime su valor y se saca de la cola (array)
+//lo hace por niveles          
+public function BFT() {
                  $node = $this->root;
                  
                  $node->level = 1; 
@@ -124,25 +142,17 @@
                 return join($out,""); 
           }
     } 
-               $arr = array(8,3,1,6,4,7,10,14,13);
+               $arr = array(7,21,53,11,10);
                $tree = new SearchBinaryTree();
                for($i=0,$n=count($arr);$i<$n;$i++) {
                    $tree->create($arr[$i]);
                }
-$str = <<<INTRO
-     In computer science, a binary search tree (BST) is a node-based binary tree structure which has the following
-properties:
-<ul>
-<li>the left subtree of a node contains only nodes with keys less than the node's key</li>
-<li>the right subtree of a node contains only nodes with keys greater than the node's key</li>
-<li>both the left and right subtrees must also be binary search trees</li>
-</ul> 
-INTRO;
+
    
-    echo"<h1>Binary Search Tree</h1>"; 
-    echo"<p>$str</p>"; 
-    echo "<h2>Input vector: ", join($arr," "), "</h2>";
-    echo"<h1>Breadh-First Traversal Tree</h1>"; 
+    echo"<h1>Busqueda de Arbol Binario</h1>"; 
+
+    echo "<h2>Vector: ", join($arr," "), "</h2>";
+    echo"<h1>Por niveles, izq a derecha</h1>"; 
     echo $tree->BFT();
     echo"<h1>Inorder</h1>"; 
     $tree->traverse('inorder');
